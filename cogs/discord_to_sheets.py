@@ -60,14 +60,14 @@ class DiscordToSheets(commands.Cog, name="sheet"):
             json.dump(config, file)
             file.close()
         self.sheets_id = id
-        embed = discord.Embed(description="`**Sheet updated!**`", color=0x0a8a14)
+        embed = discord.Embed(description="**`Sheet updated!`**", color=0x0a8a14)
         await context.send(embed=embed)
 
     # records data on sheet
     @commands.command(name="record", description="Records the provided information on Google Sheets (Syntax: !record "
                                                  "{data})")
     @commands.has_role("Active Player")
-    async def record(self, context: commands.Context, content_to_write, date_arg):
+    async def record(self, context: commands.Context, content_to_write):
         row_users = self.sheet.get(spreadsheetId=self.sheets_id, range="1:1").execute()  # ['values'][0]
         if 'values' in row_users:
             row_users = row_users['values'][0]
