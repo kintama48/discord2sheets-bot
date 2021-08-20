@@ -64,7 +64,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
 #         await context.send(embed=embed)
 
     # records data on sheet
-        @commands.command(name="record", description="Records the provided information on Google Sheets (Syntax: !record "
+    @commands.command(name="record", description="Records the provided information on Google Sheets (Syntax: !record "
                                                  "{data})")
     @commands.has_role("Active Player")
     async def record(self, context: commands.Context, content_to_write):
