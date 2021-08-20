@@ -125,11 +125,20 @@ class DiscordToSheets(commands.Cog, name="sheet"):
 
 
 def convert_num_to_letters(last_index):
-    f = lambda x: "" if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
+    f = lambda x: sys.exit("Can't convert 0 to a letter") if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
     return f(last_index)
+
 
 def index_to_range(index):
     return chr(64 + index)
+
+
+def flatten(t):
+    return [item for sublist in t for item in sublist]
+
+
+def setup(bot):
+    bot.add_cog(DiscordToSheets(bot=bot))
 
 # def convert_num_to_letters(last_index):
 #     if last_index:
@@ -149,11 +158,3 @@ def index_to_range(index):
 #
 #
 
-
-
-def flatten(t):
-    return [item for sublist in t for item in sublist]
-
-
-def setup(bot):
-    bot.add_cog(DiscordToSheets(bot=bot))
