@@ -124,10 +124,12 @@ class DiscordToSheets(commands.Cog, name="sheet"):
                               valueInputOption='USER_ENTERED', body=body).execute()
 
 
-def covert_num_to_letters(last_index):
+def convert_num_to_letters(last_index):
     f = lambda x: "" if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
     return f(last_index)
 
+def index_to_range(index):
+    return chr(64 + index)
 
 # def convert_num_to_letters(last_index):
 #     if last_index:
@@ -146,8 +148,7 @@ def covert_num_to_letters(last_index):
 #         sys.exit("Can't convert 0 to a letter")
 #
 #
-# def index_to_range(index):
-#     return chr(64 + index)
+
 
 
 def flatten(t):
