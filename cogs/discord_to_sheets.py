@@ -43,25 +43,25 @@ class DiscordToSheets(commands.Cog, name="sheet"):
                 self.sheets_id = config["sheets_id"]
                 file.close()
 
-    # set's the bot's google sheet link
-    @commands.command(name="resetsheet",
-                      description="Adds a new Google Sheet (Syntax: `!resetsheet (new sheet's link)`)")
-    @commands.has_role("Active Player")
-    async def reset_sheet(self, context, link):
-        id = link.strip().split("/")[3]
-        if not os.path.isfile("config.json"):
-            sys.exit("'config.json' not found! Add it and try again.")
-        else:
-            with open("config.json") as file:
-                config = json.load(file)
-                file.close()
-        config["sheets_id"] = id
-        with open("config.json", "w") as file:
-            json.dump(config, file)
-            file.close()
-        self.sheets_id = id
-        embed = discord.Embed(description="**`Sheet updated!`**", color=0x0a8a14)
-        await context.send(embed=embed)
+#     # set's the bot's google sheet link
+#     @commands.command(name="resetsheet",
+#                       description="Adds a new Google Sheet (Syntax: `!resetsheet (new sheet's link)`)")
+#     @commands.has_role("Active Player")
+#     async def reset_sheet(self, context, link):
+#         id = link.strip().split("/")[3]
+#         if not os.path.isfile("config.json"):
+#             sys.exit("'config.json' not found! Add it and try again.")
+#         else:
+#             with open("config.json") as file:
+#                 config = json.load(file)
+#                 file.close()
+#         config["sheets_id"] = id
+#         with open("config.json", "w") as file:
+#             json.dump(config, file)
+#             file.close()
+#         self.sheets_id = id
+#         embed = discord.Embed(description="**`Sheet updated!`**", color=0x0a8a14)
+#         await context.send(embed=embed)
 
     # records data on sheet
     @commands.command(name="record", description="Records the provided information on Google Sheets (Syntax: !record "
