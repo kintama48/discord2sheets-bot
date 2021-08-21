@@ -41,7 +41,13 @@ class DiscordToSheets(commands.Cog, name="sheet"):
             with open("config.json") as file:
                 config = json.load(file)
                 self.sheets_id = config["sheets_id"]
+                self.sheets_link = config["sheets_link"]
                 file.close()
+
+    @commands.command(name="getlink", descirption="Get the link of the connected Google Sheet")
+    @commands.has_role("Active Player")
+    async def get_link(self, context):
+        await context.send(embed=discord.Embed(description=f"{self.sheets_link}"))
 
     # # set's the bot's google sheet link
     # @commands.command(name="resetsheet",
