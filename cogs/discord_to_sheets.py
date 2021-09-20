@@ -73,7 +73,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
     @commands.command(name="record", description="Records the provided information on Google Sheets (Syntax: !record "
                                                  "{data})")
     @commands.has_role("Active Player")
-    async def record(self, context: commands.Context, content_to_write):
+    async def record(self, context: commands.Context, content_to_write: int):
         row_users = self.sheet.get(spreadsheetId=self.sheets_id, range="1:1").execute()  # ['values'][0]
         if 'values' in row_users:
             row_users = row_users['values'][0]
@@ -88,11 +88,14 @@ class DiscordToSheets(commands.Cog, name="sheet"):
 
         if row_users:
             if str(context.message.author) not in row_users:
-                range_column_id = self.strip_symbols(convert_num_to_letters(len(row_users) + 1))
+                range_column_id = convert_num_to_letters(len(row_users) + 1)
+                print("if range_column_id", range_column_id)
                 self.write_to_sheet(range=f"{range_column_id}:{range_column_id}", content=str(context.message.author),
                                     append=True)
             else:
-                range_column_id = self.strip_symbols((index_to_range(row_users.index(str(context.message.author).strip()) + 1)))
+                print(row_users)
+                range_column_id = convert_num_to_letters(row_users.index(str(context.message.author).strip()) + 1)
+                print("else range_column_id", range_column_id)
         else:
             range_column_id = "B"
             self.write_to_sheet(range="B1", content=str(context.message.author))
@@ -101,25 +104,22 @@ class DiscordToSheets(commands.Cog, name="sheet"):
             msg_date = str(context.message.created_at).split()[0].strip()
             if msg_date not in column_days:
                 range_row_id = len(column_days) + 2
+                print("if range_row_id", range_row_id)
                 self.write_to_sheet(range=f"{range_row_id}:{range_row_id}", content=msg_date, append=True)
             else:
                 range_row_id = column_days.index(msg_date) + 2
+                print("else range_row_id", range_row_id)
         else:
             range_row_id = "2"
             msg_date = str(context.message.created_at).split()[0].strip()
             self.write_to_sheet(range="A2", content=msg_date)
 
+        print(f"{range_column_id}{range_row_id}")
         self.write_to_sheet(range=f"{range_column_id}{range_row_id}", content=content_to_write)
 
         await context.send(
             embed=discord.Embed(description=f"`{context.message.author}`'s data has been successfully recorded!",
                                 color=0x0a8a14))
-
-    @staticmethod
-    def strip_symbols(string):
-        for i in "`~!@#$%^&*()_-=+|][{}':;?/>.<,":
-            string = string.replace(i, "")
-        return string
 
     def write_to_sheet(self, range, content, append=False):
         if append:
