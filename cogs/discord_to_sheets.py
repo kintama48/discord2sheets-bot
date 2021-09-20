@@ -88,7 +88,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
 
         if row_users:
             if str(context.message.author) not in row_users:
-                range_column_id = convert_num_to_letters(len(row_users) + 1)
+                range_column_id = self.strip_symbols(convert_num_to_letters(len(row_users) + 1))
                 self.write_to_sheet(range=f"{range_column_id}:{range_column_id}", content=str(context.message.author),
                                     append=True)
             else:
@@ -114,7 +114,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
         await context.send(
             embed=discord.Embed(description=f"`{context.message.author}`'s data has been successfully recorded!",
                                 color=0x0a8a14))
-    
+
     @staticmethod
     def strip_symbols(string):
         for i in "`~!@#$%^&*()_-=+|][{}':;?/>.<,":
