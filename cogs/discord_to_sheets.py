@@ -103,7 +103,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
                 range_row_id = len(column_days) + 2
                 self.write_to_sheet(range=f"{range_row_id}:{range_row_id}", content=msg_date, append=True)
             else:
-                range_row_id = self.strip_symbols(column_days.index(msg_date) + 2)
+                range_row_id = column_days.index(msg_date) + 2
         else:
             range_row_id = "2"
             msg_date = str(context.message.created_at).split()[0].strip()
