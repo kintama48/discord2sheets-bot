@@ -92,7 +92,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
                 self.write_to_sheet(range=f"{range_column_id}:{range_column_id}", content=str(context.message.author),
                                     append=True)
             else:
-                range_column_id = index_to_range(row_users.index(str(context.message.author).strip()) + 1)
+                range_column_id = self.strip_symbols((index_to_range(row_users.index(str(context.message.author).strip()) + 1)))
         else:
             range_column_id = "B"
             self.write_to_sheet(range="B1", content=str(context.message.author))
@@ -103,7 +103,7 @@ class DiscordToSheets(commands.Cog, name="sheet"):
                 range_row_id = len(column_days) + 2
                 self.write_to_sheet(range=f"{range_row_id}:{range_row_id}", content=msg_date, append=True)
             else:
-                range_row_id = column_days.index(msg_date) + 2
+                range_row_id = self.strip_symbols(column_days.index(msg_date) + 2)
         else:
             range_row_id = "2"
             msg_date = str(context.message.created_at).split()[0].strip()
@@ -114,6 +114,12 @@ class DiscordToSheets(commands.Cog, name="sheet"):
         await context.send(
             embed=discord.Embed(description=f"`{context.message.author}`'s data has been successfully recorded!",
                                 color=0x0a8a14))
+    
+    @staticmethod
+    def strip_symbols(string):
+        for i in "`~!@#$%^&*()_-=+|][{}':;?/>.<,":
+            string = string.replace(i, "")
+        return string
 
     def write_to_sheet(self, range, content, append=False):
         if append:
